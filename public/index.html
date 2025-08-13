@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Search App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Find Your Perfect Stay</h1>
+    <nav>
+      <a href="index.html" class="active">Hotel Search</a>
+      <a href="currency.html">Currency Converter</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="search-section">
+      <form id="search-form">
+        <input type="text" id="location" placeholder="Enter location" required />
+        <input type="date" id="check-in" required />
+        <input type="date" id="check-out" required />
+        <select id="guests" required>
+          <option value="">Select guests</option>
+          <option value="1">1 Guest</option>
+          <option value="2">2 Guests</option>
+          <option value="3">3 Guests</option>
+          <option value="4">4 Guests</option>
+          <option value="5">5 Guests</option>
+        </select>
+        <button type="submit">Search</button>
+      </form>
+    </section>
+
+    <div id="loading-spinner" style="display: none;">Loading...</div>
+    <div id="error-message" style="display: none; color: red;"></div>
+
+    <section id="results-container" class="results-section"></section>
+  </main>
+
+  <footer>
+    <p>© 2025 Hotel Search App</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
