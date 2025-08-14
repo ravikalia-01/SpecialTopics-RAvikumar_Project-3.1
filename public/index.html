@@ -3,46 +3,327 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotel Search & Currency Converter App</title>
+  <title>💰 Money Converter App</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .converter-section {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 40px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .converter-section h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .converter-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .input-group label,
+    .currency-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+
+    .input-group input,
+    .currency-group select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .currency-row {
+      display: flex;
+      align-items: end;
+      gap: 15px;
+    }
+
+    .currency-group {
+      flex: 1;
+    }
+
+    .swap-btn {
+      padding: 12px;
+      background: #ff5a5f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background-color 0.3s;
+    }
+
+    .swap-btn:hover {
+      background: #e04a4f;
+    }
+
+    .result-container {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 5px;
+    }
+
+    .result-display {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .exchange-rate {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .convert-btn {
+      padding: 15px;
+      background: #ff5a5f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .convert-btn:hover {
+      background: #e04a4f;
+    }
+
+    .features {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 5px;
+    }
+
+    .features h3 {
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .features ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .features li {
+      padding: 5px 0;
+      color: #555;
+    }
+
+    .loading {
+      text-align: center;
+      color: #666;
+    }
+
+    .error {
+      color: #e74c3c;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Find Your Perfect Stay</h1>
+    <h1>💰 Money Converter</h1>
     <nav>
-      <a href="index.html" class="active">Hotel Search</a>
-      <a href="currency.html">Currency Converter</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="currency.html">Advanced Converter</a>
     </nav>
   </header>
 
   <main>
-    <section class="search-section">
-      <form id="search-form">
-        <input type="text" id="location" placeholder="Enter location" required />
-        <input type="date" id="check-in" required />
-        <input type="date" id="check-out" required />
-        <select id="guests" required>
-          <option value="">Select guests</option>
-          <option value="1">1 Guest</option>
-          <option value="2">2 Guests</option>
-          <option value="3">3 Guests</option>
-          <option value="4">4 Guests</option>
-          <option value="5">5 Guests</option>
-        </select>
-        <button type="submit">Search</button>
-      </form>
+    <section class="converter-section">
+      <h2>Convert Currencies Instantly</h2>
+      
+      <div class="converter-container">
+        <div class="input-group">
+          <label for="amount">Amount</label>
+          <input type="number" id="amount" placeholder="Enter amount" value="1" min="0" step="0.01" />
+        </div>
+
+        <div class="currency-row">
+          <div class="currency-group">
+            <label for="from-currency">From</label>
+            <select id="from-currency">
+              <option value="USD">🇺🇸 US Dollar (USD)</option>
+              <option value="EUR">🇪🇺 Euro (EUR)</option>
+              <option value="GBP">🇬🇧 British Pound (GBP)</option>
+              <option value="JPY">🇯🇵 Japanese Yen (JPY)</option>
+              <option value="CAD">🇨🇦 Canadian Dollar (CAD)</option>
+              <option value="AUD">🇦🇺 Australian Dollar (AUD)</option>
+              <option value="CHF">🇨🇭 Swiss Franc (CHF)</option>
+              <option value="CNY">🇨🇳 Chinese Yuan (CNY)</option>
+              <option value="INR">🇮🇳 Indian Rupee (INR)</option>
+              <option value="MXN">🇲🇽 Mexican Peso (MXN)</option>
+            </select>
+          </div>
+
+          <button id="swap-btn" class="swap-btn" title="Swap currencies">⇄</button>
+
+          <div class="currency-group">
+            <label for="to-currency">To</label>
+            <select id="to-currency">
+              <option value="EUR">🇪🇺 Euro (EUR)</option>
+              <option value="USD">🇺🇸 US Dollar (USD)</option>
+              <option value="GBP">🇬🇧 British Pound (GBP)</option>
+              <option value="JPY">🇯🇵 Japanese Yen (JPY)</option>
+              <option value="CAD">🇨🇦 Canadian Dollar (CAD)</option>
+              <option value="AUD">🇦🇺 Australian Dollar (AUD)</option>
+              <option value="CHF">🇨🇭 Swiss Franc (CHF)</option>
+              <option value="CNY">🇨🇳 Chinese Yuan (CNY)</option>
+              <option value="INR">🇮🇳 Indian Rupee (INR)</option>
+              <option value="MXN">🇲🇽 Mexican Peso (MXN)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="result-container">
+          <div id="conversion-result" class="result-display">
+            <span id="result-amount">--</span>
+            <span id="result-currency">EUR</span>
+          </div>
+          <div id="exchange-rate" class="exchange-rate">
+            Enter amount to see exchange rate
+          </div>
+        </div>
+
+        <button id="convert-btn" class="convert-btn">Convert Now</button>
+      </div>
+
+      <div class="features">
+        <h3>✨ Features</h3>
+        <ul>
+          <li>✅ Real-time exchange rates</li>
+          <li>✅ 10+ major currencies</li>
+          <li>✅ Quick and easy conversion</li>
+          <li>✅ No registration required</li>
+        </ul>
+      </div>
     </section>
-
-    <div id="loading-spinner" style="display: none;">Loading...</div>
-    <div id="error-message" style="display: none; color: red;"></div>
-
-    <section id="results-container" class="results-section"></section>
   </main>
 
   <footer>
-    <p>© 2025 Hotel Search App</p>
+    <p>© 2025 Money Converter App - Convert currencies with ease</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    // Currency converter functionality
+    const API_KEY = 'demo-key'; // In production, use a real API key
+    const API_URL = 'https://api.exchangerate-api.com/v4/latest/';
+
+    const amountInput = document.getElementById('amount');
+    const fromCurrency = document.getElementById('from-currency');
+    const toCurrency = document.getElementById('to-currency');
+    const convertBtn = document.getElementById('convert-btn');
+    const swapBtn = document.getElementById('swap-btn');
+    const resultAmount = document.getElementById('result-amount');
+    const resultCurrency = document.getElementById('result-currency');
+    const exchangeRate = document.getElementById('exchange-rate');
+
+    let exchangeRates = {};
+
+    // Initialize
+    async function initializeConverter() {
+      await fetchExchangeRates();
+      convertCurrency(); // Initial conversion
+    }
+
+    // Fetch exchange rates
+    async function fetchExchangeRates() {
+      try {
+        const response = await fetch(`${API_URL}${fromCurrency.value}`);
+        const data = await response.json();
+        exchangeRates = data.rates;
+        updateExchangeRate();
+      } catch (error) {
+        console.error('Error fetching exchange rates:', error);
+        exchangeRate.textContent = 'Error fetching rates. Using demo rates.';
+        // Demo rates fallback
+        exchangeRates = {
+          USD: 1,
+          EUR: 0.85,
+          GBP: 0.73,
+          JPY: 110.0,
+          CAD: 1.25,
+          AUD: 1.35,
+          CHF: 0.92,
+          CNY: 6.45,
+          INR: 74.5,
+          MXN: 20.1
+        };
+      }
+    }
+
+    // Convert currency
+    function convertCurrency() {
+      const amount = parseFloat(amountInput.value);
+      if (isNaN(amount) || amount <= 0) {
+        resultAmount.textContent = '--';
+        exchangeRate.textContent = 'Please enter a valid amount';
+        return;
+      }
+
+      const fromRate = exchangeRates[fromCurrency.value];
+      const toRate = exchangeRates[toCurrency.value];
+      
+      if (!fromRate || !toRate) {
+        exchangeRate.textContent = 'Exchange rate not available';
+        return;
+      }
+
+      const convertedAmount = (amount / fromRate) * toRate;
+      resultAmount.textContent = convertedAmount.toFixed(2);
+      resultCurrency.textContent = toCurrency.value;
+      
+      updateExchangeRate();
+    }
+
+    // Update exchange rate display
+    function updateExchangeRate() {
+      const fromRate = exchangeRates[fromCurrency.value];
+      const toRate = exchangeRates[toCurrency.value];
+      
+      if (fromRate && toRate) {
+        const rate = toRate / fromRate;
+        exchangeRate.textContent = `1 ${fromCurrency.value} = ${rate.toFixed(4)} ${toCurrency.value}`;
+      }
+    }
+
+    // Swap currencies
+    function swapCurrencies() {
+      const temp = fromCurrency.value;
+      fromCurrency.value = toCurrency.value;
+      toCurrency.value = temp;
+      convertCurrency();
+    }
+
+    // Event listeners
+    convertBtn.addEventListener('click', convertCurrency);
+    swapBtn.addEventListener('click', swapCurrencies);
+    amountInput.addEventListener('input', convertCurrency);
+    fromCurrency.addEventListener('change', async () => {
+      await fetchExchangeRates();
+      convertCurrency();
+    });
+    toCurrency.addEventListener('change', convertCurrency);
+
+    // Initialize on page load
+    initializeConverter();
+  </script>
 </body>
 </html>
